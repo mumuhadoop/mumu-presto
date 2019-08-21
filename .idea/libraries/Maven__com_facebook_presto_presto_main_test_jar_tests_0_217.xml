@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Maven: com.facebook.presto:presto-main:test-jar:tests:0.217">
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/com/facebook/presto/presto-main/0.217/presto-main-0.217-tests.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$MAVEN_REPOSITORY$/com/facebook/presto/presto-main/0.217/presto-main-0.217-test-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$MAVEN_REPOSITORY$/com/facebook/presto/presto-main/0.217/presto-main-0.217-test-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Maven: io.airlift:http-client:0.178">
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/io/airlift/http-client/0.178/http-client-0.178.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$MAVEN_REPOSITORY$/io/airlift/http-client/0.178/http-client-0.178-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$MAVEN_REPOSITORY$/io/airlift/http-client/0.178/http-client-0.178-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>
