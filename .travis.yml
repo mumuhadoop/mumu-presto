@@ -1,0 +1,17 @@
+language: java
+
+os: linux
+
+env:
+  global:
+    - PRESTO=172.31.134.225:9001
+
+sudo: required
+
+jdk:
+  - oraclejdk8
+
+script: mvn clean install -DskipTests cobertura:cobertura
+
+after_success:
+  - bash <(curl -s https://codecov.io/bash)
