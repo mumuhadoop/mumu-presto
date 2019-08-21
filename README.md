@@ -3,7 +3,7 @@
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://github.com/mumuhadoop/mumu-presto/blob/master/LICENSE)
 [![Build Status](https://travis-ci.org/mumuhadoop/mumu-presto.svg?branch=master)](https://travis-ci.org/mumuhadoop/mumu-presto)
 [![codecov](https://codecov.io/gh/mumuhadoop/mumu-presto/branch/master/graph/badge.svg)](https://codecov.io/gh/mumuhadoop/mumu-presto)
-[![Documentation Status](https://readthedocs.org/projects/mumu-presto/badge/?version=latest)](https://mumu-presto.readthedocs.io/en/latest/?badge=latest)
+[![Documentation Status](https://readthedocs.org/projects/mumu-presto/badge/?version=latest)](https://mumu-presto.readthedocs.io/zh/latest/?badge=latest)
 
 *** mumu-presto是以presto为基础的学习项目，通过这个项目学习怎么使用presto和presto的思想。presto是一个集合多种数据源
 的开源组件，可以通过sql的方式方便的操作集成在presto上的数据源。简化了数据操作的复杂度，尤其是想要用多种不同的数据源
@@ -122,8 +122,12 @@ bin/launcher run
 ```
 
 ## 相关阅读
+[mumu-presto documentation](https://mumu-presto.readthedocs.io/zh/latest/)
+
 [presto官网文档](https://prestodb.io/docs/current/index.html)
+
 [presto 0.166概述](https://www.cnblogs.com/sorco/p/7060166.html)
+
 [presto 0.166概述](https://my.oschina.net/idealhp/blog/1863897)
 
 
