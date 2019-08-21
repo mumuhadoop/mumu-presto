@@ -5,6 +5,7 @@ os: linux
 env:
   global:
     - PRESTO=172.31.134.225:9001
+    - CODECOV_TOKEN="eb74a89a-4f17-4bb4-88f1-f24ff2b79c90"
 
 sudo: required
 
@@ -14,4 +15,4 @@ jdk:
 script: mvn clean install -DskipTests cobertura:cobertura
 
 after_success:
-  - bash <(curl -s https://codecov.io/bash)
+  - bash <(curl -s https://codecov.io/bash) -t eb74a89a-4f17-4bb4-88f1-f24ff2b79c90
