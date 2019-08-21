@@ -9,8 +9,6 @@ env:
 
 sudo: required
 
-jdk:
-  - oraclejdk8
 
 script: mvn clean install -DskipTests cobertura:cobertura
 
