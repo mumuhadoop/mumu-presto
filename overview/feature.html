@@ -1,0 +1,305 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="zh-Cn" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="zh-Cn" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>1.2. presto特点 &mdash; mumu-presto 0.0.1 文档</title>
+  
+
+  
+  
+    <link rel="shortcut icon" href="../_static/icon.png"/>
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/css/custom.css" type="text/css" />
+    <link rel="index" title="索引" href="../genindex.html" />
+    <link rel="search" title="搜索" href="../search.html" />
+    <link rel="next" title="1.3. presto基本概念" href="concept.html" />
+    <link rel="prev" title="1.1. presto发展" href="develop.html" /> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> mumu-presto
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../overview.html">1. presto简介</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="develop.html">1.1. presto发展</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">1.2. presto特点</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id1">1.2.1. 多数据源</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#sql">1.2.2. 支持sql</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id2">1.2.3. 可拓展</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id3">1.2.4. 混合计算</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id4">1.2.5. 高性能</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id5">1.2.6. 流水线</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="concept.html">1.3. presto基本概念</a></li>
+<li class="toctree-l2"><a class="reference internal" href="architecture.html">1.4. presto架构</a></li>
+<li class="toctree-l2"><a class="reference internal" href="prestovshive.html">1.5. presto VS hive</a></li>
+<li class="toctree-l2"><a class="reference internal" href="prestovsspark.html">1.6. presto VS spark</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">2. presto安装部署</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../usercase.html">3. presto 使用</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../core.html">4. presto核心设计</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../connector.html">5. presto之connector</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sql.html">6. presto之sql</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../functions.html">7. presto函数</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../datatypes.html">8. presto数据类型</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../spi.html">9. presto之spi开发</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../optimize.html">10. presto优化</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../faq.html">11. presto常见问题</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">mumu-presto</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../overview.html">1. presto简介</a> &raquo;</li>
+        
+      <li>1.2. presto特点</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/overview/feature.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="presto">
+<h1>1.2. presto特点<a class="headerlink" href="#presto" title="永久链接至标题">¶</a></h1>
+<p>presto是专门为大数据实时查询而设计和开发的产品。由于presto是使用java开发，所以极易学习和使用，并且对于特定的场景进行自定义开发和性能优化。
+无论是对多数据源的支持，还是高性能、可拓展、易用性等，presto都是大数据产品中的佼佼者，presto的特性如下所示:</p>
+<div class="section" id="id1">
+<h2>1.2.1. 多数据源<a class="headerlink" href="#id1" title="永久链接至标题">¶</a></h2>
+<blockquote>
+<div><ul class="simple">
+<li>Postgresql Connector</li>
+<li>Mysql Connector</li>
+<li>Cassandra Connector</li>
+<li>Hive Connector</li>
+<li>Kafka Connector</li>
+<li>jmx Connector</li>
+<li>Accumulo Connector</li>
+<li>Elasticsearch Connector</li>
+<li>Kudu Connector</li>
+<li>Local File Connector</li>
+<li>Memory Connector</li>
+<li>MongoDB Connector</li>
+<li>Redis Connector</li>
+<li>SQL Server Connector</li>
+<li>Redshift Connector</li>
+<li>Thrift Connector</li>
+<li>System Connector</li>
+<li>TPCDS Connector</li>
+<li>TPCH Connector</li>
+</ul>
+<p>目前presto可以支持数据源包含上面多种connector数据源。而且可以通过spi接口进行自定义数据源接入开发。</p>
+</div></blockquote>
+</div>
+<div class="section" id="sql">
+<h2>1.2.2. 支持sql<a class="headerlink" href="#sql" title="永久链接至标题">¶</a></h2>
+<blockquote>
+<div>presto可以完全支持ANSI SQL，并提供了一个shell供客户端查询计算。</div></blockquote>
+</div>
+<div class="section" id="id2">
+<h2>1.2.3. 可拓展<a class="headerlink" href="#id2" title="永久链接至标题">¶</a></h2>
+<blockquote>
+<div>presto有很好的拓展性，开发人员可以使用spi来编写自己的connector，并且使用sql语句查询和分析自己编写的connector数据源</div></blockquote>
+</div>
+<div class="section" id="id3">
+<h2>1.2.4. 混合计算<a class="headerlink" href="#id3" title="永久链接至标题">¶</a></h2>
+<blockquote>
+<div>在数据库中每种类型的数据源都对应这一个特定的connector，用户可以根据业务需求在presto中针对一个特定的connector类型配置一个或者多个catalog，
+用户可以混合多个catalog进行join查询和计算。</div></blockquote>
+</div>
+<div class="section" id="id4">
+<h2>1.2.5. 高性能<a class="headerlink" href="#id4" title="永久链接至标题">¶</a></h2>
+<blockquote>
+<div>经过facebook测试计算，presto的性能是hive的10被，是sparkSQL的三倍。</div></blockquote>
+</div>
+<div class="section" id="id5">
+<h2>1.2.6. 流水线<a class="headerlink" href="#id5" title="永久链接至标题">¶</a></h2>
+<blockquote>
+<div>presto是使用pipeline来进行设计的，查询的时候客户不需要等待所有的结果出来完成之后才能获取到结果，而是计算出来一部分结果之后就反馈给
+客户，形成一个流水线操作。</div></blockquote>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="concept.html" class="btn btn-neutral float-right" title="1.3. presto基本概念" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="develop.html" class="btn btn-neutral" title="1.1. presto发展" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, babymm.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'0.0.1',
+            LANGUAGE:'zh_Cn',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+      <script type="text/javascript" src="../_static/translations.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
