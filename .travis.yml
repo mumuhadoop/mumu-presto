@@ -7,10 +7,14 @@ env:
     - PRESTO=172.31.134.225:9001
     - CODECOV_TOKEN="eb74a89a-4f17-4bb4-88f1-f24ff2b79c90"
 
+cache:
+  directories:
+    - /home/travis/.m2/repository
+
 sudo: required
 
 jdk:
-  - openjdk8
+  - oraclejdk8
 
 script: mvn clean install -DskipTests cobertura:cobertura
 
