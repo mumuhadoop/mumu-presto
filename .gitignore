@@ -24,6 +24,5 @@ hs_err_pid*
 
 mumu-presto.iml
 .idea
-docs/build
 docs/.vscode
 logs
