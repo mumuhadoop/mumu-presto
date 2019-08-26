@@ -16,7 +16,7 @@
         <nexus.url>192.168.11.25:8081</nexus.url>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
-        <presto.version>0.217</presto.version>
+        <presto.version>0.215</presto.version>
     </properties>
 
     <dependencies>
