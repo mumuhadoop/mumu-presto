@@ -5,3 +5,7 @@ Presto is a distributed SQL query engine designed to query large data sets distr
 
 .. toctree::
     :maxdepth: 1
+
+    usercase/presto-cli
+    usercase/shows
+    usercase/query

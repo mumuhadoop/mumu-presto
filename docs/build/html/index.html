@@ -19,34 +19,37 @@
   
 
   
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="_static/language_data.js"></script>
+        <script type="text/javascript" src="_static/translations.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
 
-  
-  
     
 
   
-
   <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
   <link rel="stylesheet" href="_static/css/custom.css" type="text/css" />
     <link rel="index" title="索引" href="genindex.html" />
     <link rel="search" title="搜索" href="search.html" />
     <link rel="next" title="1. presto简介" href="overview.html" /> 
-
-  
-  <script src="_static/js/modernizr.min.js"></script>
-
 </head>
 
 <body class="wy-body-for-nav">
 
    
   <div class="wy-grid-for-nav">
-
     
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
-        <div class="wy-side-nav-search">
+        <div class="wy-side-nav-search" >
           
 
           
@@ -171,22 +174,34 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="installation.html">2. presto安装部署</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="installation/enviroment.html">2.1. 环境准备</a></li>
-<li class="toctree-l2"><a class="reference internal" href="installation/compile.html">2.2. 源码编译</a></li>
-<li class="toctree-l2"><a class="reference internal" href="installation/standardlone.html">2.3. 单节点安装</a></li>
-<li class="toctree-l2"><a class="reference internal" href="installation/cluster.html">2.4. 集群安装</a></li>
+<li class="toctree-l2"><a class="reference internal" href="installation/standardlone.html">2.2. 单节点安装</a></li>
+<li class="toctree-l2"><a class="reference internal" href="installation/cluster.html">2.3. 集群安装</a></li>
+<li class="toctree-l2"><a class="reference internal" href="installation/compile.html">2.4. 源码编译</a></li>
 <li class="toctree-l2"><a class="reference internal" href="installation/client.html">2.5. 客户端安装</a></li>
 <li class="toctree-l2"><a class="reference internal" href="installation/verifier.html">2.6. presto校验</a></li>
 <li class="toctree-l2"><a class="reference internal" href="installation/benchmark.html">2.7. benchmark性能测试</a></li>
 <li class="toctree-l2"><a class="reference internal" href="installation/webui.html">2.8. webUI界面</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="usercase.html">3. presto 使用</a><ul class="simple">
+<li class="toctree-l1"><a class="reference internal" href="usercase.html">3. presto 使用</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="usercase/presto-cli.html">3.1. presto客户端使用</a></li>
+<li class="toctree-l2"><a class="reference internal" href="usercase/shows.html">3.2. presto的show展示</a></li>
+<li class="toctree-l2"><a class="reference internal" href="usercase/query.html">3.3. sql查询</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="core.html">4. presto核心设计</a><ul class="simple">
+<li class="toctree-l1"><a class="reference internal" href="core.html">4. presto核心设计</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="core/restful.html">4.1. RESTFUL架构</a></li>
+<li class="toctree-l2"><a class="reference internal" href="core/commitquery.html">4.2. 提交查询</a></li>
+<li class="toctree-l2"><a class="reference internal" href="core/createqueryplan.html">4.3. 生成查询计划</a></li>
+<li class="toctree-l2"><a class="reference internal" href="core/queryschedule.html">4.4. 查询调度</a></li>
+<li class="toctree-l2"><a class="reference internal" href="core/executequery.html">4.5. 执行查询</a></li>
+<li class="toctree-l2"><a class="reference internal" href="core/queryqueue.html">4.6. 查询队列</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="connector.html">5. presto之connector</a><ul class="simple">
+<li class="toctree-l1"><a class="reference internal" href="connector.html">5. presto之connector</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="connector/system.html">5.1. system</a></li>
+<li class="toctree-l2"><a class="reference internal" href="connector/postgresql.html">5.2. postgresql</a></li>
+<li class="toctree-l2"><a class="reference internal" href="connector/hive.html">5.3. hive</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="sql.html">6. presto之sql</a><ul class="simple">
@@ -195,10 +210,12 @@
 <li class="toctree-l1"><a class="reference internal" href="functions.html">7. presto函数</a><ul class="simple">
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="datatypes.html">8. presto数据类型</a><ul class="simple">
+<li class="toctree-l1"><a class="reference internal" href="datatypes.html">8. presto数据类型</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="datatypes/common.html">8.1. presto数据类型</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="spi.html">9. presto之spi开发</a><ul class="simple">
+<li class="toctree-l1"><a class="reference internal" href="spi.html">9. presto之spi开发</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="spi/demo.html">9.1. spi开发入门</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="optimize.html">10. presto优化</a><ul>
@@ -207,6 +224,8 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="faq.html">11. presto常见问题</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="faq/memory.html">11.1. task exceeded max memory</a></li>
+<li class="toctree-l2"><a class="reference internal" href="faq/presto-hive-parquet.html">11.2. presto读取hive的parquet表</a></li>
+<li class="toctree-l2"><a class="reference internal" href="faq/presto-emptyfiles.html">11.3. prsto查询hive的空文件报错</a></li>
 </ul>
 </li>
 </ul>
@@ -231,7 +250,7 @@
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2019, babymm.
+        &copy; Copyright 2019, babymm
 
     </p>
   </div>
@@ -248,34 +267,28 @@
   
 
 
-  
-
-    <script type="text/javascript">
-        var DOCUMENTATION_OPTIONS = {
-            URL_ROOT:'./',
-            VERSION:'0.0.1',
-            LANGUAGE:'zh_Cn',
-            COLLAPSE_INDEX:false,
-            FILE_SUFFIX:'.html',
-            HAS_SOURCE:  true,
-            SOURCELINK_SUFFIX: '.txt'
-        };
-    </script>
-      <script type="text/javascript" src="_static/jquery.js"></script>
-      <script type="text/javascript" src="_static/underscore.js"></script>
-      <script type="text/javascript" src="_static/doctools.js"></script>
-      <script type="text/javascript" src="_static/translations.js"></script>
-      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-
-  
-
-  <script type="text/javascript" src="_static/js/theme.js"></script>
-
   <script type="text/javascript">
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script> 
+  </script>
+
+  
+  
+    
+    <!-- Theme Analytics -->
+    <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-XXXXXXX-1', 'auto');
+    ga('send', 'pageview');
+    </script>
+
+    
+   
 
 </body>
 </html>

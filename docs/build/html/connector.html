@@ -19,35 +19,38 @@
   
 
   
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="_static/language_data.js"></script>
+        <script type="text/javascript" src="_static/translations.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
 
-  
-  
     
 
   
-
   <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
   <link rel="stylesheet" href="_static/css/custom.css" type="text/css" />
     <link rel="index" title="索引" href="genindex.html" />
     <link rel="search" title="搜索" href="search.html" />
-    <link rel="next" title="6. presto之sql" href="sql.html" />
-    <link rel="prev" title="4. presto核心设计" href="core.html" /> 
-
-  
-  <script src="_static/js/modernizr.min.js"></script>
-
+    <link rel="next" title="5.1. system" href="connector/system.html" />
+    <link rel="prev" title="4.6. 查询队列" href="core/queryqueue.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
 
    
   <div class="wy-grid-for-nav">
-
     
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
-        <div class="wy-side-nav-search">
+        <div class="wy-side-nav-search" >
           
 
           
@@ -86,7 +89,10 @@
 <li class="toctree-l1"><a class="reference internal" href="installation.html">2. presto安装部署</a></li>
 <li class="toctree-l1"><a class="reference internal" href="usercase.html">3. presto 使用</a></li>
 <li class="toctree-l1"><a class="reference internal" href="core.html">4. presto核心设计</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">5. presto之connector</a><ul class="simple">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">5. presto之connector</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="connector/system.html">5.1. system</a></li>
+<li class="toctree-l2"><a class="reference internal" href="connector/postgresql.html">5.2. postgresql</a></li>
+<li class="toctree-l2"><a class="reference internal" href="connector/hive.html">5.3. hive</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="sql.html">6. presto之sql</a></li>
@@ -163,6 +169,11 @@
 <h1>5. presto之connector<a class="headerlink" href="#prestoconnector" title="永久链接至标题">¶</a></h1>
 <p>Presto is a distributed SQL query engine designed to query large data sets distributed over one or more heterogeneous data sources.</p>
 <div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="connector/system.html">5.1. system</a></li>
+<li class="toctree-l1"><a class="reference internal" href="connector/postgresql.html">5.2. postgresql</a></li>
+<li class="toctree-l1"><a class="reference internal" href="connector/hive.html">5.3. hive</a></li>
+</ul>
 </div>
 </div>
 
@@ -174,10 +185,10 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="sql.html" class="btn btn-neutral float-right" title="6. presto之sql" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="connector/system.html" class="btn btn-neutral float-right" title="5.1. system" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="core.html" class="btn btn-neutral" title="4. presto核心设计" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="core/queryqueue.html" class="btn btn-neutral float-left" title="4.6. 查询队列" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -186,7 +197,7 @@
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2019, babymm.
+        &copy; Copyright 2019, babymm
 
     </p>
   </div>
@@ -203,34 +214,28 @@
   
 
 
-  
-
-    <script type="text/javascript">
-        var DOCUMENTATION_OPTIONS = {
-            URL_ROOT:'./',
-            VERSION:'0.0.1',
-            LANGUAGE:'zh_Cn',
-            COLLAPSE_INDEX:false,
-            FILE_SUFFIX:'.html',
-            HAS_SOURCE:  true,
-            SOURCELINK_SUFFIX: '.txt'
-        };
-    </script>
-      <script type="text/javascript" src="_static/jquery.js"></script>
-      <script type="text/javascript" src="_static/underscore.js"></script>
-      <script type="text/javascript" src="_static/doctools.js"></script>
-      <script type="text/javascript" src="_static/translations.js"></script>
-      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-
-  
-
-  <script type="text/javascript" src="_static/js/theme.js"></script>
-
   <script type="text/javascript">
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script> 
+  </script>
+
+  
+  
+    
+    <!-- Theme Analytics -->
+    <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-XXXXXXX-1', 'auto');
+    ga('send', 'pageview');
+    </script>
+
+    
+   
 
 </body>
 </html>

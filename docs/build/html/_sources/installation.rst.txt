@@ -8,9 +8,9 @@ presto可以部署在单节点上，也可以部署在集群中。
     :maxdepth: 1
 
     installation/enviroment
-    installation/compile
     installation/standardlone
     installation/cluster
+    installation/compile
     installation/client
     installation/verifier
     installation/benchmark

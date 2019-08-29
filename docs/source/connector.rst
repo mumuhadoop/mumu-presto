@@ -5,3 +5,8 @@ Presto is a distributed SQL query engine designed to query large data sets distr
 
 .. toctree::
     :maxdepth: 1
+
+
+    connector/system
+    connector/postgresql
+    connector/hive
