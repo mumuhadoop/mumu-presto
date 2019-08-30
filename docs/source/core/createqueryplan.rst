@@ -303,3 +303,166 @@ Coordinator_only
 ::::::::::::::::
 
 Coordinator_only阶段只在coordinator上执行，对insert和create table操作进行commit的tableCommitNode属于Coordinator_only阶段。
+
+查询计划执行
+>>>>>>>>>>>>
+
+count执行计划
+:::::::::::::
+
+::
+
+    presto:test> explain (type distributed) select count(distinct src_ip) from t_ods_industry_atd;
+                                                                                           Query Plan
+    ---------------------------------------------------------------------------------------------------------------
+     Fragment 0 [SINGLE]
+         Output layout: [count]
+         Output partitioning: SINGLE []
+         Stage Execution Strategy: UNGROUPED_EXECUTION
+         - Output[_col0] => [[count]]
+                 Cost: ?, Output: ? rows (?B)
+                 _col0 := count
+             - Aggregate(FINAL) => [[count]]
+                     Cost: ?, Output: ? rows (?B)
+                     count := "count"("count_4")
+                 - LocalExchange[SINGLE] () => [[count_4]]
+                         Cost: ?, Output: ? rows (?B)
+                     - RemoteSource[1] => [[count_4]]
+                             Cost: ?, Output: ? rows (?B)
+
+     Fragment 1 [HASH]
+         Output layout: [count_4]
+         Output partitioning: SINGLE []
+         Stage Execution Strategy: UNGROUPED_EXECUTION
+         - Aggregate(PARTIAL) => [[count_4]]
+                 Cost: ?, Output: ? rows (?B)
+                 count_4 := "count"("src_ip")
+             - Aggregate(FINAL)[src_ip][$hashvalue] => [[src_ip, $hashvalue]]
+                     Cost: ?, Output: ? rows (?B)
+                 - LocalExchange[HASH][$hashvalue] ("src_ip") => [[src_ip, $hashvalue]]
+                         Cost: ?, Output: ? rows (?B)
+                     - RemoteSource[2] => [[src_ip, $hashvalue_5]]
+                             Cost: ?, Output: ? rows (?B)
+
+     Fragment 2 [SOURCE]
+         Output layout: [src_ip, $hashvalue_6]
+         Output partitioning: HASH [src_ip][$hashvalue_6]
+         Stage Execution Strategy: UNGROUPED_EXECUTION
+         - Aggregate(PARTIAL)[src_ip][$hashvalue_6] => [[src_ip, $hashvalue_6]]
+                 Cost: ?, Output: ? rows (?B)
+             - ScanProject[table = hive:HiveTableHandle{schemaName=test, tableName=t_ods_industry_atd, analyzeParti
+                     Estimates: {rows: ? (?), cpu: ?, memory: 0.00, network: 0.00}/{rows: ? (?), cpu: ?, memory: 0.
+                     Cost: ?, Output: ? rows (?B)
+                     $hashvalue_6 := "combine_hash"(bigint '0', COALESCE("$operator$hash_code"("src_ip"), 0))
+                     LAYOUT: test.t_ods_industry_atd
+                     src_ip := src_ip:string:20:REGULAR
+                     event_type_id:string:-1:PARTITION_KEY
+                         :: [[1], [2], [3], [6], [8]]
+                     ds:string:-1:PARTITION_KEY
+                         :: [[2019-06-26], [2019-07-17]]
+
+
+    (1 row)
+
+    Query 20190830_091640_00070_rewpf, FINISHED, 1 node
+    Splits: 1 total, 1 done (100.00%)
+    0:06 [0 rows, 0B] [0 rows/s, 0B/s]
+
+
+join执行计划
+::::::::::::
+
+::
+
+    presto:test> explain (type distributed)  select device.service,count(1) counter from postgres.public.tb_protocol_device device left join hive.test.t_ods_industry_atd atd on (device.service=atd.dst_service) group by device.service order by counter desc limit 10;
+                                                                                             Query Plan
+    ---------------------------------------------------------------------------------------------------------------
+     Fragment 0 [SINGLE]
+         Output layout: [service, count]
+         Output partitioning: SINGLE []
+         Stage Execution Strategy: UNGROUPED_EXECUTION
+         - Output[service, counter] => [[service, count]]
+                 Cost: ?, Output: ? rows (?B)
+                 counter := count
+             - TopN[10 by (count DESC_NULLS_LAST)] => [[service, count]]
+                     Cost: ?, Output: ? rows (?B)
+                 - LocalExchange[SINGLE] () => [[service, count]]
+                         Cost: ?, Output: ? rows (?B)
+                     - RemoteSource[1] => [[service, count]]
+                             Cost: ?, Output: ? rows (?B)
+
+     Fragment 1 [HASH]
+         Output layout: [service, count]
+         Output partitioning: SINGLE []
+         Stage Execution Strategy: UNGROUPED_EXECUTION
+         - TopNPartial[10 by (count DESC_NULLS_LAST)] => [[service, count]]
+                 Cost: ?, Output: ? rows (?B)
+             - Project[] => [[service, count]]
+                     Cost: ?, Output: ? rows (?B)
+                 - Aggregate(FINAL)[service][$hashvalue] => [[service, $hashvalue, count]]
+                         Cost: ?, Output: ? rows (?B)
+                         count := "count"("count_12")
+                     - LocalExchange[HASH][$hashvalue] ("service") => [[service, count_12, $hashvalue]]
+                             Cost: ?, Output: ? rows (?B)
+                         - RemoteSource[2] => [[service, count_12, $hashvalue_13]]
+                                 Cost: ?, Output: ? rows (?B)
+
+     Fragment 2 [HASH]
+         Output layout: [service, count_12, $hashvalue_19]
+         Output partitioning: HASH [service][$hashvalue_19]
+         Stage Execution Strategy: UNGROUPED_EXECUTION
+         - Aggregate(PARTIAL)[service][$hashvalue_19] => [[service, $hashvalue_19, count_12]]
+                 Cost: ?, Output: ? rows (?B)
+                 count_12 := "count"(*)
+             - Project[] => [[service, $hashvalue_19]]
+                     Cost: ?, Output: ? rows (?B)
+                     $hashvalue_19 := "combine_hash"(bigint '0', COALESCE("$operator$hash_code"("service"), 0))
+                 - LeftJoin[("expr" = "dst_service")][$hashvalue_14, $hashvalue_16] => [[service]]
+                         Cost: ?, Output: ? rows (?B)
+                         Distribution: PARTITIONED
+                     - RemoteSource[3] => [[service, expr, $hashvalue_14]]
+                             Cost: ?, Output: ? rows (?B)
+                     - LocalExchange[HASH][$hashvalue_16] ("dst_service") => [[dst_service, $hashvalue_16]]
+                             Estimates: {rows: ? (?), cpu: ?, memory: 0.00, network: ?}
+                             Cost: ?, Output: ? rows (?B)
+                         - RemoteSource[4] => [[dst_service, $hashvalue_17]]
+                                 Cost: ?, Output: ? rows (?B)
+
+     Fragment 3 [SOURCE]
+         Output layout: [service, expr, $hashvalue_15]
+         Output partitioning: HASH [expr][$hashvalue_15]
+         Stage Execution Strategy: UNGROUPED_EXECUTION
+         - Project[] => [[service, expr, $hashvalue_15]]
+                 Estimates: {rows: ? (?), cpu: ?, memory: 0.00, network: 0.00}
+                 Cost: ?, Output: ? rows (?B)
+                 $hashvalue_15 := "combine_hash"(bigint '0', COALESCE("$operator$hash_code"("expr"), 0))
+             - ScanProject[table = postgres:postgres:public.tb_protocol_device:null:public:tb_protocol_device, grou
+                     Estimates: {rows: ? (?), cpu: ?, memory: 0.00, network: 0.00}/{rows: ? (?), cpu: ?, memory: 0.
+                     Cost: ?, Output: ? rows (?B)
+                     expr := CAST("service" AS varchar)
+                     service := JdbcColumnHandle{connectorId=postgres, columnName=service, jdbcTypeHandle=JdbcTypeH
+
+     Fragment 4 [SOURCE]
+         Output layout: [dst_service, $hashvalue_18]
+         Output partitioning: HASH [dst_service][$hashvalue_18]
+         Stage Execution Strategy: UNGROUPED_EXECUTION
+         - ScanProject[table = hive:HiveTableHandle{schemaName=test, tableName=t_ods_industry_atd, analyzePartition
+                 Estimates: {rows: ? (?), cpu: ?, memory: 0.00, network: 0.00}/{rows: ? (?), cpu: ?, memory: 0.00,
+                 Cost: ?, Output: ? rows (?B)
+                 $hashvalue_18 := "combine_hash"(bigint '0', COALESCE("$operator$hash_code"("dst_service"), 0))
+                 LAYOUT: test.t_ods_industry_atd
+                 dst_service := dst_service:string:25:REGULAR
+                 event_type_id:string:-1:PARTITION_KEY
+                     :: [[1], [2], [3], [6], [8]]
+                 ds:string:-1:PARTITION_KEY
+                     :: [[2019-06-26], [2019-07-17]]
+
+
+    (1 row)
+
+    Query 20190830_092059_00071_rewpf, FINISHED, 1 node
+    Splits: 1 total, 1 done (100.00%)
+    0:07 [0 rows, 0B] [0 rows/s, 0B/s]
+
+
+.. image:: presto-count-plain.png

@@ -85,25 +85,29 @@
             
             
               <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="../overview.html">1. presto简介</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../installation.html">2. presto安装部署</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../overview.html">1. presto 简介</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">2. presto 安装部署</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../usercase.html">3. presto 使用</a></li>
-<li class="toctree-l1 current"><a class="reference internal" href="../core.html">4. presto核心设计</a><ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../core.html">4. presto 核心设计</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="restful.html">4.1. RESTFUL架构</a></li>
 <li class="toctree-l2"><a class="reference internal" href="commitquery.html">4.2. 提交查询</a></li>
 <li class="toctree-l2"><a class="reference internal" href="createqueryplan.html">4.3. 生成查询计划</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">4.4. 查询调度</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">4.4. 查询调度</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id2">4.4.1. 生成调度自行器</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id3">4.4.2. 查询调度过程</a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="executequery.html">4.5. 执行查询</a></li>
 <li class="toctree-l2"><a class="reference internal" href="queryqueue.html">4.6. 查询队列</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="../connector.html">5. presto之connector</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../sql.html">6. presto之sql</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../functions.html">7. presto函数</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../datatypes.html">8. presto数据类型</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../spi.html">9. presto之spi开发</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../optimize.html">10. presto优化</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../faq.html">11. presto常见问题</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../connector.html">5. presto connector</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sql.html">6. presto sql</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../functions.html">7. presto 函数</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../datatypes.html">8. presto 数据类型</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../spi.html">9. presto spi开发</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../optimize.html">10. presto 优化</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../faq.html">11. presto 常见问题</a></li>
 </ul>
 
             
@@ -149,7 +153,7 @@
     
       <li><a href="../index.html">Docs</a> &raquo;</li>
         
-          <li><a href="../core.html">4. presto核心设计</a> &raquo;</li>
+          <li><a href="../core.html">4. presto 核心设计</a> &raquo;</li>
         
       <li>4.4. 查询调度</li>
     
@@ -172,6 +176,36 @@
             
   <div class="section" id="id1">
 <h1>4.4. 查询调度<a class="headerlink" href="#id1" title="永久链接至标题">¶</a></h1>
+<p>presto根据生成的逻辑执行计划将其拆分成多个且有层级关系的stage，presto的各个stage都可以理解为将整个查询的执行计划分成了若干段，实际就是将整个sql处理过程
+拆分成具有各自功能的执行阶段。每个执行阶段都会被进一步分解为若干个task，presto将查询请求解析成各个执行阶段后，变回将各个阶段分配到各个计算节点中执行，这
+个分配的过程实际是基于stage进行的，每个stage的调度过程是基于split分配worker node的过程，不同的stage有不同的调度策略。</p>
+<div class="section" id="id2">
+<h2>4.4.1. 生成调度自行器<a class="headerlink" href="#id2" title="永久链接至标题">¶</a></h2>
+<p>stage层级关系的形式是通过查询执行计划演变而来的，对于每个stage，presto都会生成一个与其对应的SqlStageExecution实例，SqlStageExecution承载咳stage的启动和任务
+的调度，也可称之为整个查询的调度执行器。sql语句经过优化执行后，获取sql的逻辑执行计划subPlan。</p>
+</div>
+<div class="section" id="id3">
+<h2>4.4.2. 查询调度过程<a class="headerlink" href="#id3" title="永久链接至标题">¶</a></h2>
+<p>SqlStageExecution内部主要由一下组件组成:</p>
+<ul class="simple">
+<li><dl class="first docutils">
+<dt>nodeScheduler 将task分配给node的核心模块。</dt>
+<dd><ul class="first last">
+<li>nodeManager 获取存活的节点列表，将其保存在NodeMap中，并且定时更新列表中的缓存。</li>
+<li>nodeMap 用于存储presto节点信息，包含ip端口组成的列表、ip组成的节点列表、rack组成的节点列表。其中rack只是简单的将节点inetAddress封装成rackId，并且一个节点对应一个rack。</li>
+<li>nodeSchedulerConfig 配置调度的相关参数</li>
+<li>nodeSelector 提供了各个stage中task分配节点的算法。</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li>nodeTaskMap 保存了当前stage分配的task和几点的映射列表，其中NodeTasks维护了一个节点对应的task列表，并且会对每个task注册状态监听器，确保task完成后去task列表中移除。</li>
+<li>remoteTaskFactory 生成RemoteTask的工厂类。</li>
+<li>stageStateMachinestage状态监听器</li>
+</ul>
+<p>presto的查询调度本质上就是split分配到各个节点的过程，每个阶段一句本身所陈丹的职责，调度方式有所区别，从整体上来说，split分配节点的方式基本为随机选择的策略，在次基础上尽量保证
+每个节点处理的split相对平均。</p>
+</div>
 </div>
 
 

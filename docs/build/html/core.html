@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>4. presto核心设计 &mdash; mumu-presto 0.0.1 文档</title>
+  <title>4. presto 核心设计 &mdash; mumu-presto 0.0.1 文档</title>
   
 
   
@@ -40,7 +40,7 @@
     <link rel="index" title="索引" href="genindex.html" />
     <link rel="search" title="搜索" href="search.html" />
     <link rel="next" title="4.1. RESTFUL架构" href="core/restful.html" />
-    <link rel="prev" title="3. presto 使用" href="usercase.html" /> 
+    <link rel="prev" title="3.3. sql基本查询" href="usercase/query.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -85,10 +85,10 @@
             
             
               <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="overview.html">1. presto简介</a></li>
-<li class="toctree-l1"><a class="reference internal" href="installation.html">2. presto安装部署</a></li>
+<li class="toctree-l1"><a class="reference internal" href="overview.html">1. presto 简介</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">2. presto 安装部署</a></li>
 <li class="toctree-l1"><a class="reference internal" href="usercase.html">3. presto 使用</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">4. presto核心设计</a><ul>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">4. presto 核心设计</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="core/restful.html">4.1. RESTFUL架构</a></li>
 <li class="toctree-l2"><a class="reference internal" href="core/commitquery.html">4.2. 提交查询</a></li>
 <li class="toctree-l2"><a class="reference internal" href="core/createqueryplan.html">4.3. 生成查询计划</a></li>
@@ -97,13 +97,13 @@
 <li class="toctree-l2"><a class="reference internal" href="core/queryqueue.html">4.6. 查询队列</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="connector.html">5. presto之connector</a></li>
-<li class="toctree-l1"><a class="reference internal" href="sql.html">6. presto之sql</a></li>
-<li class="toctree-l1"><a class="reference internal" href="functions.html">7. presto函数</a></li>
-<li class="toctree-l1"><a class="reference internal" href="datatypes.html">8. presto数据类型</a></li>
-<li class="toctree-l1"><a class="reference internal" href="spi.html">9. presto之spi开发</a></li>
-<li class="toctree-l1"><a class="reference internal" href="optimize.html">10. presto优化</a></li>
-<li class="toctree-l1"><a class="reference internal" href="faq.html">11. presto常见问题</a></li>
+<li class="toctree-l1"><a class="reference internal" href="connector.html">5. presto connector</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sql.html">6. presto sql</a></li>
+<li class="toctree-l1"><a class="reference internal" href="functions.html">7. presto 函数</a></li>
+<li class="toctree-l1"><a class="reference internal" href="datatypes.html">8. presto 数据类型</a></li>
+<li class="toctree-l1"><a class="reference internal" href="spi.html">9. presto spi开发</a></li>
+<li class="toctree-l1"><a class="reference internal" href="optimize.html">10. presto 优化</a></li>
+<li class="toctree-l1"><a class="reference internal" href="faq.html">11. presto 常见问题</a></li>
 </ul>
 
             
@@ -149,7 +149,7 @@
     
       <li><a href="index.html">Docs</a> &raquo;</li>
         
-      <li>4. presto核心设计</li>
+      <li>4. presto 核心设计</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -169,7 +169,7 @@
            <div itemprop="articleBody">
             
   <div class="section" id="presto">
-<h1>4. presto核心设计<a class="headerlink" href="#presto" title="永久链接至标题">¶</a></h1>
+<h1>4. presto 核心设计<a class="headerlink" href="#presto" title="永久链接至标题">¶</a></h1>
 <div class="line-block">
 <div class="line-block">
 <div class="line">查询的提交、presto集群中任务的调度、节点的管理、查询信息的更新和数据的传输，都依赖于presto集群中构建的RESTFULful服务。在这一部分，我们会对presto提供的</div>
@@ -199,7 +199,7 @@
         <a href="core/restful.html" class="btn btn-neutral float-right" title="4.1. RESTFUL架构" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="usercase.html" class="btn btn-neutral float-left" title="3. presto 使用" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="usercase/query.html" class="btn btn-neutral float-left" title="3.3. sql基本查询" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

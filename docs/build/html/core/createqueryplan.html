@@ -85,10 +85,10 @@
             
             
               <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="../overview.html">1. presto简介</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../installation.html">2. presto安装部署</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../overview.html">1. presto 简介</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">2. presto 安装部署</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../usercase.html">3. presto 使用</a></li>
-<li class="toctree-l1 current"><a class="reference internal" href="../core.html">4. presto核心设计</a><ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../core.html">4. presto 核心设计</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="restful.html">4.1. RESTFUL架构</a></li>
 <li class="toctree-l2"><a class="reference internal" href="commitquery.html">4.2. 提交查询</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">4.3. 生成查询计划</a><ul>
@@ -137,6 +137,11 @@
 <li class="toctree-l4"><a class="reference internal" href="#coordinator-only">4.3.7.4. Coordinator_only</a></li>
 </ul>
 </li>
+<li class="toctree-l3"><a class="reference internal" href="#id17">4.3.8. 查询计划执行</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#count">4.3.8.1. count执行计划</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#join">4.3.8.2. join执行计划</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="queryschedule.html">4.4. 查询调度</a></li>
@@ -144,13 +149,13 @@
 <li class="toctree-l2"><a class="reference internal" href="queryqueue.html">4.6. 查询队列</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="../connector.html">5. presto之connector</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../sql.html">6. presto之sql</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../functions.html">7. presto函数</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../datatypes.html">8. presto数据类型</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../spi.html">9. presto之spi开发</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../optimize.html">10. presto优化</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../faq.html">11. presto常见问题</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../connector.html">5. presto connector</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sql.html">6. presto sql</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../functions.html">7. presto 函数</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../datatypes.html">8. presto 数据类型</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../spi.html">9. presto spi开发</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../optimize.html">10. presto 优化</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../faq.html">11. presto 常见问题</a></li>
 </ul>
 
             
@@ -196,7 +201,7 @@
     
       <li><a href="../index.html">Docs</a> &raquo;</li>
         
-          <li><a href="../core.html">4. presto核心设计</a> &raquo;</li>
+          <li><a href="../core.html">4. presto 核心设计</a> &raquo;</li>
         
       <li>4.3. 生成查询计划</li>
     
@@ -498,6 +503,164 @@ SqlQueryExecution启动比较复杂，需要执行查询计划、优化查询计
 <div class="section" id="coordinator-only">
 <h3>4.3.7.4. Coordinator_only<a class="headerlink" href="#coordinator-only" title="永久链接至标题">¶</a></h3>
 <p>Coordinator_only阶段只在coordinator上执行，对insert和create table操作进行commit的tableCommitNode属于Coordinator_only阶段。</p>
+</div>
+</div>
+<div class="section" id="id17">
+<h2>4.3.8. 查询计划执行<a class="headerlink" href="#id17" title="永久链接至标题">¶</a></h2>
+<div class="section" id="count">
+<h3>4.3.8.1. count执行计划<a class="headerlink" href="#count" title="永久链接至标题">¶</a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>presto:test&gt; explain (type distributed) select count(distinct src_ip) from t_ods_industry_atd;
+                                                                                       Query Plan
+---------------------------------------------------------------------------------------------------------------
+ Fragment 0 [SINGLE]
+     Output layout: [count]
+     Output partitioning: SINGLE []
+     Stage Execution Strategy: UNGROUPED_EXECUTION
+     - Output[_col0] =&gt; [[count]]
+             Cost: ?, Output: ? rows (?B)
+             _col0 := count
+         - Aggregate(FINAL) =&gt; [[count]]
+                 Cost: ?, Output: ? rows (?B)
+                 count := &quot;count&quot;(&quot;count_4&quot;)
+             - LocalExchange[SINGLE] () =&gt; [[count_4]]
+                     Cost: ?, Output: ? rows (?B)
+                 - RemoteSource[1] =&gt; [[count_4]]
+                         Cost: ?, Output: ? rows (?B)
+
+ Fragment 1 [HASH]
+     Output layout: [count_4]
+     Output partitioning: SINGLE []
+     Stage Execution Strategy: UNGROUPED_EXECUTION
+     - Aggregate(PARTIAL) =&gt; [[count_4]]
+             Cost: ?, Output: ? rows (?B)
+             count_4 := &quot;count&quot;(&quot;src_ip&quot;)
+         - Aggregate(FINAL)[src_ip][$hashvalue] =&gt; [[src_ip, $hashvalue]]
+                 Cost: ?, Output: ? rows (?B)
+             - LocalExchange[HASH][$hashvalue] (&quot;src_ip&quot;) =&gt; [[src_ip, $hashvalue]]
+                     Cost: ?, Output: ? rows (?B)
+                 - RemoteSource[2] =&gt; [[src_ip, $hashvalue_5]]
+                         Cost: ?, Output: ? rows (?B)
+
+ Fragment 2 [SOURCE]
+     Output layout: [src_ip, $hashvalue_6]
+     Output partitioning: HASH [src_ip][$hashvalue_6]
+     Stage Execution Strategy: UNGROUPED_EXECUTION
+     - Aggregate(PARTIAL)[src_ip][$hashvalue_6] =&gt; [[src_ip, $hashvalue_6]]
+             Cost: ?, Output: ? rows (?B)
+         - ScanProject[table = hive:HiveTableHandle{schemaName=test, tableName=t_ods_industry_atd, analyzeParti
+                 Estimates: {rows: ? (?), cpu: ?, memory: 0.00, network: 0.00}/{rows: ? (?), cpu: ?, memory: 0.
+                 Cost: ?, Output: ? rows (?B)
+                 $hashvalue_6 := &quot;combine_hash&quot;(bigint &#39;0&#39;, COALESCE(&quot;$operator$hash_code&quot;(&quot;src_ip&quot;), 0))
+                 LAYOUT: test.t_ods_industry_atd
+                 src_ip := src_ip:string:20:REGULAR
+                 event_type_id:string:-1:PARTITION_KEY
+                     :: [[1], [2], [3], [6], [8]]
+                 ds:string:-1:PARTITION_KEY
+                     :: [[2019-06-26], [2019-07-17]]
+
+
+(1 row)
+
+Query 20190830_091640_00070_rewpf, FINISHED, 1 node
+Splits: 1 total, 1 done (100.00%)
+0:06 [0 rows, 0B] [0 rows/s, 0B/s]
+</pre></div>
+</div>
+</div>
+<div class="section" id="join">
+<h3>4.3.8.2. join执行计划<a class="headerlink" href="#join" title="永久链接至标题">¶</a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>presto:test&gt; explain (type distributed)  select device.service,count(1) counter from postgres.public.tb_protocol_device device left join hive.test.t_ods_industry_atd atd on (device.service=atd.dst_service) group by device.service order by counter desc limit 10;
+                                                                                         Query Plan
+---------------------------------------------------------------------------------------------------------------
+ Fragment 0 [SINGLE]
+     Output layout: [service, count]
+     Output partitioning: SINGLE []
+     Stage Execution Strategy: UNGROUPED_EXECUTION
+     - Output[service, counter] =&gt; [[service, count]]
+             Cost: ?, Output: ? rows (?B)
+             counter := count
+         - TopN[10 by (count DESC_NULLS_LAST)] =&gt; [[service, count]]
+                 Cost: ?, Output: ? rows (?B)
+             - LocalExchange[SINGLE] () =&gt; [[service, count]]
+                     Cost: ?, Output: ? rows (?B)
+                 - RemoteSource[1] =&gt; [[service, count]]
+                         Cost: ?, Output: ? rows (?B)
+
+ Fragment 1 [HASH]
+     Output layout: [service, count]
+     Output partitioning: SINGLE []
+     Stage Execution Strategy: UNGROUPED_EXECUTION
+     - TopNPartial[10 by (count DESC_NULLS_LAST)] =&gt; [[service, count]]
+             Cost: ?, Output: ? rows (?B)
+         - Project[] =&gt; [[service, count]]
+                 Cost: ?, Output: ? rows (?B)
+             - Aggregate(FINAL)[service][$hashvalue] =&gt; [[service, $hashvalue, count]]
+                     Cost: ?, Output: ? rows (?B)
+                     count := &quot;count&quot;(&quot;count_12&quot;)
+                 - LocalExchange[HASH][$hashvalue] (&quot;service&quot;) =&gt; [[service, count_12, $hashvalue]]
+                         Cost: ?, Output: ? rows (?B)
+                     - RemoteSource[2] =&gt; [[service, count_12, $hashvalue_13]]
+                             Cost: ?, Output: ? rows (?B)
+
+ Fragment 2 [HASH]
+     Output layout: [service, count_12, $hashvalue_19]
+     Output partitioning: HASH [service][$hashvalue_19]
+     Stage Execution Strategy: UNGROUPED_EXECUTION
+     - Aggregate(PARTIAL)[service][$hashvalue_19] =&gt; [[service, $hashvalue_19, count_12]]
+             Cost: ?, Output: ? rows (?B)
+             count_12 := &quot;count&quot;(*)
+         - Project[] =&gt; [[service, $hashvalue_19]]
+                 Cost: ?, Output: ? rows (?B)
+                 $hashvalue_19 := &quot;combine_hash&quot;(bigint &#39;0&#39;, COALESCE(&quot;$operator$hash_code&quot;(&quot;service&quot;), 0))
+             - LeftJoin[(&quot;expr&quot; = &quot;dst_service&quot;)][$hashvalue_14, $hashvalue_16] =&gt; [[service]]
+                     Cost: ?, Output: ? rows (?B)
+                     Distribution: PARTITIONED
+                 - RemoteSource[3] =&gt; [[service, expr, $hashvalue_14]]
+                         Cost: ?, Output: ? rows (?B)
+                 - LocalExchange[HASH][$hashvalue_16] (&quot;dst_service&quot;) =&gt; [[dst_service, $hashvalue_16]]
+                         Estimates: {rows: ? (?), cpu: ?, memory: 0.00, network: ?}
+                         Cost: ?, Output: ? rows (?B)
+                     - RemoteSource[4] =&gt; [[dst_service, $hashvalue_17]]
+                             Cost: ?, Output: ? rows (?B)
+
+ Fragment 3 [SOURCE]
+     Output layout: [service, expr, $hashvalue_15]
+     Output partitioning: HASH [expr][$hashvalue_15]
+     Stage Execution Strategy: UNGROUPED_EXECUTION
+     - Project[] =&gt; [[service, expr, $hashvalue_15]]
+             Estimates: {rows: ? (?), cpu: ?, memory: 0.00, network: 0.00}
+             Cost: ?, Output: ? rows (?B)
+             $hashvalue_15 := &quot;combine_hash&quot;(bigint &#39;0&#39;, COALESCE(&quot;$operator$hash_code&quot;(&quot;expr&quot;), 0))
+         - ScanProject[table = postgres:postgres:public.tb_protocol_device:null:public:tb_protocol_device, grou
+                 Estimates: {rows: ? (?), cpu: ?, memory: 0.00, network: 0.00}/{rows: ? (?), cpu: ?, memory: 0.
+                 Cost: ?, Output: ? rows (?B)
+                 expr := CAST(&quot;service&quot; AS varchar)
+                 service := JdbcColumnHandle{connectorId=postgres, columnName=service, jdbcTypeHandle=JdbcTypeH
+
+ Fragment 4 [SOURCE]
+     Output layout: [dst_service, $hashvalue_18]
+     Output partitioning: HASH [dst_service][$hashvalue_18]
+     Stage Execution Strategy: UNGROUPED_EXECUTION
+     - ScanProject[table = hive:HiveTableHandle{schemaName=test, tableName=t_ods_industry_atd, analyzePartition
+             Estimates: {rows: ? (?), cpu: ?, memory: 0.00, network: 0.00}/{rows: ? (?), cpu: ?, memory: 0.00,
+             Cost: ?, Output: ? rows (?B)
+             $hashvalue_18 := &quot;combine_hash&quot;(bigint &#39;0&#39;, COALESCE(&quot;$operator$hash_code&quot;(&quot;dst_service&quot;), 0))
+             LAYOUT: test.t_ods_industry_atd
+             dst_service := dst_service:string:25:REGULAR
+             event_type_id:string:-1:PARTITION_KEY
+                 :: [[1], [2], [3], [6], [8]]
+             ds:string:-1:PARTITION_KEY
+                 :: [[2019-06-26], [2019-07-17]]
+
+
+(1 row)
+
+Query 20190830_092059_00071_rewpf, FINISHED, 1 node
+Splits: 1 total, 1 done (100.00%)
+0:07 [0 rows, 0B] [0 rows/s, 0B/s]
+</pre></div>
+</div>
+<img alt="../_images/presto-count-plain.png" src="../_images/presto-count-plain.png" />
 </div>
 </div>
 </div>

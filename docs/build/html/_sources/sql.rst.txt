@@ -1,5 +1,5 @@
-presto之sql
-===========
+presto sql
+==========
 
 .. toctree::
     :maxdepth: 1

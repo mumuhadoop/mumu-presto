@@ -40,7 +40,7 @@
     <link rel="index" title="索引" href="../genindex.html" />
     <link rel="search" title="搜索" href="../search.html" />
     <link rel="next" title="11.2. presto读取hive的parquet表" href="presto-hive-parquet.html" />
-    <link rel="prev" title="11. presto常见问题" href="../faq.html" /> 
+    <link rel="prev" title="11. presto 常见问题" href="../faq.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -85,19 +85,24 @@
             
             
               <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="../overview.html">1. presto简介</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../installation.html">2. presto安装部署</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../overview.html">1. presto 简介</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">2. presto 安装部署</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../usercase.html">3. presto 使用</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../core.html">4. presto核心设计</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../connector.html">5. presto之connector</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../sql.html">6. presto之sql</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../functions.html">7. presto函数</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../datatypes.html">8. presto数据类型</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../spi.html">9. presto之spi开发</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../optimize.html">10. presto优化</a></li>
-<li class="toctree-l1 current"><a class="reference internal" href="../faq.html">11. presto常见问题</a><ul class="current">
-<li class="toctree-l2 current"><a class="current reference internal" href="#">11.1. task exceeded max memory</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../core.html">4. presto 核心设计</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../connector.html">5. presto connector</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sql.html">6. presto sql</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../functions.html">7. presto 函数</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../datatypes.html">8. presto 数据类型</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../spi.html">9. presto spi开发</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../optimize.html">10. presto 优化</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../faq.html">11. presto 常见问题</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">11.1. task exceeded max memory</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id1">11.1.1. 出错原因</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id2">11.1.2. 解决方案</a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="presto-hive-parquet.html">11.2. presto读取hive的parquet表</a></li>
+<li class="toctree-l2"><a class="reference internal" href="presto-emptyfiles.html">11.3. prsto查询hive的空文件报错</a></li>
 </ul>
 </li>
 </ul>
@@ -145,7 +150,7 @@
     
       <li><a href="../index.html">Docs</a> &raquo;</li>
         
-          <li><a href="../faq.html">11. presto常见问题</a> &raquo;</li>
+          <li><a href="../faq.html">11. presto 常见问题</a> &raquo;</li>
         
       <li>11.1. task exceeded max memory</li>
     
@@ -168,6 +173,14 @@
             
   <div class="section" id="task-exceeded-max-memory">
 <h1>11.1. task exceeded max memory<a class="headerlink" href="#task-exceeded-max-memory" title="永久链接至标题">¶</a></h1>
+<div class="section" id="id1">
+<h2>11.1.1. 出错原因<a class="headerlink" href="#id1" title="永久链接至标题">¶</a></h2>
+<p>presto会将每个查询语句最终分解为在每个节点上运行的task，并且会在配置文件中配置每个task可以使用的最大内存大小。若某个查询语句中的某个task处理的数据超过给task可以使用的最大内存代销，则会跑出上面的错误。</p>
+</div>
+<div class="section" id="id2">
+<h2>11.1.2. 解决方案<a class="headerlink" href="#id2" title="永久链接至标题">¶</a></h2>
+<p>修改presto配置文件config.properties，提供其中的配置属性task.max-memory的值。</p>
+</div>
 </div>
 
 
@@ -181,7 +194,7 @@
         <a href="presto-hive-parquet.html" class="btn btn-neutral float-right" title="11.2. presto读取hive的parquet表" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="../faq.html" class="btn btn-neutral float-left" title="11. presto常见问题" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="../faq.html" class="btn btn-neutral float-left" title="11. presto 常见问题" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

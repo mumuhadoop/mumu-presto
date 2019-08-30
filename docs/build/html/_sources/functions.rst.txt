@@ -1,5 +1,5 @@
-presto函数
-==========
+presto 函数
+===========
 
 .. toctree::
     :maxdepth: 1
