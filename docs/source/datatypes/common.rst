@@ -75,7 +75,7 @@ Fixed length character data. A CHAR type without length specified has a default 
 Example type definitions: char, char(20)
 
 VARBINARY
-::::
+:::::::::
 
 Variable length binary data.
 
